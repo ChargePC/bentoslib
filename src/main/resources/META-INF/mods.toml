@@ -1,0 +1,35 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT (LICENSE.txt)"
+issueTrackerURL="https://github.com/ChargePC/bentoslib/issues"
+
+[[mods]]
+modId="bentoslib"
+version="0.2-1.20.1"
+displayName="BentosLib"
+displayURL="https://github.com/ChargePC/bentoslib"
+logoFile="bentoslib.png"
+logoBlur=false
+authors="Randomcara7"
+description='''Shared building blocks for Bento's mods'''
+
+[[dependencies.bentoslib]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.bentoslib]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.21)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.bentoslib]]
+modId="curios"
+mandatory=true
+versionRange="[5.0,)"
+ordering="AFTER"
+side="BOTH"

@@ -1,0 +1,89 @@
+plugins {
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '6.0.24'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+}
+
+group = 'net.randomcara.bentoslib'
+version = '0.2-1.20.1'
+
+base {
+    archivesName = 'bentoslib'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+minecraft {
+    mappings channel: 'parchment', version: '2023.06.26-1.20.1'
+}
+
+repositories {
+    maven { url = 'https://maven.parchmentmc.org' }
+    maven { url = 'https://maven.minecraftforge.net' }
+    maven { url = 'https://maven.theillusivec4.top/' }
+    maven { url = 'https://maven.blamejared.com' }
+    mavenCentral()
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.1-47.4.9'
+
+    // compileOnly on purpose. the consumer brings its own deobf curios, and a runtimeOnly
+    // fg.deobf would leak a remapped coordinate into the published pom
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:5.14.1+1.20.1:api")
+
+    // only FastCyclingItemStackRenderer touches jei, and the consumer loads it only when jei is there
+    compileOnly fg.deobf('mezz.jei:jei-1.20.1-common-api:15.20.0.106')
+    compileOnly fg.deobf('mezz.jei:jei-1.20.1-forge-api:15.20.0.106')
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'bentoslib'
+            artifact jar
+
+            // the java component drags forgegradle's remapped coordinates into the pom, where the
+            // consumer can't resolve them. ship the jar alone, whoever uses it already has forge
+            pom.withXml {
+                if (asNode().get('dependencies')) {
+                    asNode().remove(asNode().get('dependencies'))
+                }
+            }
+        }
+    }
+}
+
+// reobfJar rewrites the jar in place. without this ordering a publish can rerun jar after the
+// reobf and ship named mappings, which works in dev and breaks in production
+tasks.withType(PublishToMavenLocal).configureEach {
+    dependsOn tasks.named('reobfJar')
+}
+
+tasks.withType(PublishToMavenRepository).configureEach {
+    dependsOn tasks.named('reobfJar')
+}
+
+jar {
+    // license text goes in the jar, mods.toml only carries the name of it
+    from(rootProject.file('LICENSE.txt'))
+
+    manifest {
+        attributes([
+                'Specification-Title'     : 'bentoslib',
+                'Specification-Vendor'    : 'Randomcara7',
+                'Specification-Version'   : '1',
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.version,
+                'Implementation-Vendor'   : 'Randomcara7'
+        ])
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
