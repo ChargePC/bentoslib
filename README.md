@@ -12,8 +12,8 @@ a `KeyMapping` has to exist before a tooltip can name it.
 ## Requirements
 
 * Minecraft `1.20.1`, Forge `47.4.9`, Java 17
-* [Curios API](https://www.curseforge.com/minecraft/mc-mods/curios) `5.14.1+1.20.1`, required by
-  the curio activation framework
+* [Curios API](https://www.curseforge.com/minecraft/mc-mods/curios) `5.14.1+1.20.1`, optional. Only the curio
+  activation framework needs it, so mods that skip it don't pull Curios in
 * JEI is optional and only needed if you use `FastCyclingItemStackRenderer`
 
 ## Depending on it
@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    implementation fg.deobf('net.randomcara.bentoslib:bentoslib:0.2-1.20.1')
+    implementation fg.deobf('net.randomcara.bentoslib:bentoslib:0.3-1.20.1')
 }
 ```
 
@@ -42,7 +42,7 @@ And in your `mods.toml`:
 [[dependencies.yourmod]]
 modId="bentoslib"
 mandatory=true
-versionRange="[0.2,)"
+versionRange="[0.3,)"
 ordering="BEFORE"
 side="BOTH"
 ```

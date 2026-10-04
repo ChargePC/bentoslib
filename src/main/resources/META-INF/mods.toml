@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/ChargePC/bentoslib/issues"
 
 [[mods]]
 modId="bentoslib"
-version="0.2-1.20.1"
+version="0.3-1.20.1"
 displayName="BentosLib"
 displayURL="https://github.com/ChargePC/bentoslib"
 logoFile="bentoslib.png"
@@ -29,7 +29,7 @@ side="BOTH"
 
 [[dependencies.bentoslib]]
 modId="curios"
-mandatory=true
+mandatory=false
 versionRange="[5.0,)"
 ordering="AFTER"
 side="BOTH"

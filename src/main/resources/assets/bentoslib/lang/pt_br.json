@@ -1,0 +1,8 @@
+{
+  "key.categories.bentoslib": "BentosLib",
+  "key.bentoslib.activate_curio_item": "Ativar item de Curio",
+  "bentoslib.tooltip.hold_shift": "Segure [Shift] ",
+  "bentoslib.tooltip.for_details": "para detalhes",
+  "bentoslib.tooltip.press_to_activate": "Aperte %s para ativar este artefato",
+  "bentoslib.tooltip.activation_key": "a tecla de ativação"
+}
